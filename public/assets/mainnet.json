@@ -1,0 +1,69 @@
+{
+  "schemaVersion": 1,
+  "network": "mainnet",
+  "arkadeServer": "https://arkade.computer",
+  "apiBaseUrl": "https://api.arkadewrap.com",
+  "updatedAt": "2026-11-17",
+  "assets": [
+    {
+      "chain": "ethereum",
+      "ticker": "ETH",
+      "kind": "native",
+      "decimals": 18,
+      "arkadeTicker": "ETH-CX",
+      "arkadeAssetId": "28a0194ea9a8d4383f630af83e4c564a38803b3f1f21123efd09ffaef3265f380000",
+      "contractAddress": null,
+      "operations": ["wrap", "unwrap"]
+    },
+    {
+      "chain": "ethereum",
+      "ticker": "USDT",
+      "kind": "erc20",
+      "decimals": 6,
+      "arkadeTicker": "USDT-CX",
+      "arkadeAssetId": "d4e095d6e9003607655a65936057a4db37e9cf2b3003d522ea121df5793f76a00000",
+      "contractAddress": "0xdAC17F958D2ee523a2206206994597C13D831ec7",
+      "operations": ["wrap", "unwrap"]
+    },
+    {
+      "chain": "polygon",
+      "ticker": "POL",
+      "kind": "native",
+      "decimals": 18,
+      "arkadeTicker": "POL-CX",
+      "arkadeAssetId": "2e362cab95506c03e2e7c2905ebf9a1dfc18657bca5815943e5ebd8b3d85e0f90000",
+      "contractAddress": null,
+      "operations": ["wrap", "unwrap"]
+    },
+    {
+      "chain": "polygon",
+      "ticker": "USDT",
+      "kind": "erc20",
+      "decimals": 6,
+      "arkadeTicker": "USDT-CX",
+      "arkadeAssetId": "d4e095d6e9003607655a65936057a4db37e9cf2b3003d522ea121df5793f76a00000",
+      "contractAddress": "0xc2132D05D31c914a87C6611C10748AEb04B58e8F",
+      "operations": ["wrap"]
+    },
+    {
+      "chain": "tron",
+      "ticker": "TRX",
+      "kind": "native",
+      "decimals": 6,
+      "arkadeTicker": "TRX-CX",
+      "arkadeAssetId": "161d02fbced1a827e422b14189fd35eddaf4a29c1f337f57a30f4a22eeeb7c7c0000",
+      "contractAddress": null,
+      "operations": ["wrap", "unwrap"]
+    },
+    {
+      "chain": "tron",
+      "ticker": "USDT",
+      "kind": "trc20",
+      "decimals": 6,
+      "arkadeTicker": "USDT-CX",
+      "arkadeAssetId": "d4e095d6e9003607655a65936057a4db37e9cf2b3003d522ea121df5793f76a00000",
+      "contractAddress": "TR7NHqjeKQxGTCi8q8ZY4pL8otSzgjLj6t",
+      "operations": ["wrap"]
+    }
+  ]
+}

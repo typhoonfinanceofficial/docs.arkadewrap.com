@@ -1,0 +1,300 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Arkade Wrap API",
+    "version": "1.0.0",
+    "description": "Create wrap and unwrap quotes and track them through settlement."
+  },
+  "servers": [
+    {
+      "url": "https://api.arkadewrap.com"
+    }
+  ],
+  "paths": {
+    "/wrap": {
+      "post": {
+        "summary": "Create a wrap quote",
+        "operationId": "createWrapQuote",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/WrapRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Quote created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Quote"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/Error"
+          },
+          "429": {
+            "$ref": "#/components/responses/Error"
+          },
+          "500": {
+            "$ref": "#/components/responses/Error"
+          }
+        }
+      }
+    },
+    "/unwrap": {
+      "post": {
+        "summary": "Create an unwrap quote",
+        "operationId": "createUnwrapQuote",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UnwrapRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Quote created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Quote"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/Error"
+          },
+          "429": {
+            "$ref": "#/components/responses/Error"
+          },
+          "500": {
+            "$ref": "#/components/responses/Error"
+          }
+        }
+      }
+    },
+    "/quote/{id}": {
+      "get": {
+        "summary": "Get quote status",
+        "operationId": "getQuote",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Current quote",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Quote"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/Error"
+          },
+          "404": {
+            "$ref": "#/components/responses/Error"
+          },
+          "429": {
+            "$ref": "#/components/responses/Error"
+          },
+          "500": {
+            "$ref": "#/components/responses/Error"
+          }
+        }
+      }
+    },
+    "/health": {
+      "get": {
+        "summary": "Health check",
+        "operationId": "health",
+        "responses": {
+          "200": {
+            "description": "Service is healthy",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": ["status"],
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "const": "ok"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "WrapRequest": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["chain", "ticker", "sender", "receiver"],
+        "properties": {
+          "chain": {
+            "type": "string",
+            "enum": ["ethereum", "polygon", "tron"]
+          },
+          "ticker": {
+            "type": "string",
+            "description": "Underlying asset ticker."
+          },
+          "sender": {
+            "type": "string",
+            "description": "Source-chain deposit address."
+          },
+          "receiver": {
+            "type": "string",
+            "description": "Arkade payout address."
+          }
+        }
+      },
+      "UnwrapRequest": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["chain", "ticker", "sender", "receiver"],
+        "properties": {
+          "chain": {
+            "type": "string",
+            "enum": ["ethereum", "polygon", "tron"]
+          },
+          "ticker": {
+            "type": "string",
+            "description": "Arkade ticker including the -CX suffix."
+          },
+          "sender": {
+            "type": "string",
+            "description": "Arkade deposit address."
+          },
+          "receiver": {
+            "type": "string",
+            "description": "Destination-chain payout address."
+          }
+        }
+      },
+      "Quote": {
+        "type": "object",
+        "required": [
+          "id",
+          "type",
+          "chain",
+          "ticker",
+          "sender",
+          "receiver",
+          "treasury",
+          "status",
+          "expiry"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "type": {
+            "type": "string",
+            "enum": ["wrap", "unwrap"]
+          },
+          "chain": {
+            "type": "string"
+          },
+          "ticker": {
+            "type": "string"
+          },
+          "sender": {
+            "type": "string"
+          },
+          "receiver": {
+            "type": "string"
+          },
+          "treasury": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string",
+            "enum": ["pending", "deposited", "processing", "completed", "failed", "expired"]
+          },
+          "amount": {
+            "type": ["string", "null"]
+          },
+          "fee_amount": {
+            "type": ["string", "null"]
+          },
+          "payout_amount": {
+            "type": ["string", "null"]
+          },
+          "deposit_tx_hash": {
+            "type": ["string", "null"]
+          },
+          "mint_tx_hash": {
+            "type": ["string", "null"]
+          },
+          "burn_tx_hash": {
+            "type": ["string", "null"]
+          },
+          "payout_tx_hash": {
+            "type": ["string", "null"]
+          },
+          "expiry": {
+            "type": "number",
+            "description": "Unix timestamp in milliseconds."
+          }
+        }
+      },
+      "Error": {
+        "type": "object",
+        "required": ["statusCode", "error", "message"],
+        "properties": {
+          "statusCode": {
+            "type": "number"
+          },
+          "error": {
+            "type": "string"
+          },
+          "message": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "responses": {
+      "Error": {
+        "description": "Error response",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Error"
+            }
+          }
+        }
+      }
+    }
+  }
+}
